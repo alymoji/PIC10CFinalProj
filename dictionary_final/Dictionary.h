@@ -17,7 +17,7 @@ public:
         std::string def;
         std::string pos;
         std::string phon;
-    }
+    };
     
     std::vector<std::string>entries;
     
@@ -25,10 +25,11 @@ public:
     void editWord();
     void viewSpecific() const;
     void showPhone();
-    bool loadDict(const char * filename);
+    bool loadDict(const char * filename); // see if file successfully opened
     
 private:
-    size_t lookup_word(std::string word) const;
+    static void to_Lower(std::string& s); // auto lowercase for lookup function
+    size_t lookup_word(std::string word) const; // look ups word in vector
 };
 
 
