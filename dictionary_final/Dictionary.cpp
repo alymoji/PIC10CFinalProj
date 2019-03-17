@@ -1,9 +1,13 @@
 #include <cctype>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 #include "Dictionary.h"
 using namespace std;
 
+
+//Each line has to be in format
+//output: word, part of speech, "definition"
 bool Dictionary::loadDict(const char * filename)
 {
     ifstream fin(filename);
@@ -16,23 +20,25 @@ bool Dictionary::loadDict(const char * filename)
     string entry_line;
     while(getline(fin, entry_line, '\n')) //reading a line to add to vector
     {
+        if(entry_line.empty())
+            continue; //skip blank lines
+        
         Entry next_entry;
-        
-        size_t comma_position = entry_line.find_first_of(',', 0);
-        if(comma_position == string::npos)
+        size_t position1 = entry_line.find_first_of(',', 0); //check word
+        if(position1 == string::npos)
         {
             cout << "Bad file format\n";
             return false;
         }
-        next_entry.word = entry_line.substr(0, comma_position);
+        next_entry.word = entry_line.substr(0, position1);
         
-        size_t comma_position2 = entry_line.find_first_of(',', comma_position + 1);
-        if(comma_position2 == string::npos)
+        size_t position2 = entry_line.find_first_of(',', position1 + 1); //check part of speech
+        if(position2 == string::npos)
         {
             cout << "Bad file format\n";
             return false;
         }
-        string POSstr = entry_line.substr(comma_position + 1, comma_position2 - comma_position - 1);
+        string POSstr = entry_line.substr(position1 + 1, position2 - position1 - 1);
         to_Lower(POSstr);
         if(POSstr == "noun")
             next_entry.pos = NOUN;
@@ -53,11 +59,26 @@ bool Dictionary::loadDict(const char * filename)
             cout << "Unrecognized part of speech\n";
             return false;
         }
-         //what about the quote?
-    
-        insertEntry(next_entry); //create fn 
+        
+        position1 = entry_line.find_first_of('"', position2 + 1); //check definiton
+        if(position1 == string::npos)
+        {
+            cout << "Bad file format\n";
+            entries.clear();
+            return false;
+        }
+        position2 = entry_line.find_first_of('"', position1 + 1);
+        if(position2 == string::npos)
+        {
+            cout << "Bad file format\n";
+            entries.clear();
+            return false;
+        }
+        next_entry.def = entry_line.substr(position1 + 1, position2 - position1 - 1);
+        entries.push_back(next_entry); //why error
     }
     fin.close();
+    sort(entries.begin(), entries.end()); //sort file
     return true;
 }
 
@@ -76,7 +97,7 @@ size_t Dictionary::lookup_word(std::string word) const //function that retruns i
     for(size_t i = 0; i < entries.size(); ++i)
     {
         if(word == entries[i].word); //work on this??
-            return i;
+        return i;
     }
     return entries.size(); //if word isn't there, returns size as index
 }
