@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DBE4866A223EB4540088FAF9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBE48669223EB4540088FAF9 /* main.cpp */; };
+		DBE48672223EB47A0088FAF9 /* Dictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBE48671223EB47A0088FAF9 /* Dictionary.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		DBE48666223EB4540088FAF9 /* dictionary_final */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = dictionary_final; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBE48669223EB4540088FAF9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		DBE48670223EB46E0088FAF9 /* Dictionary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dictionary.h; sourceTree = "<group>"; };
+		DBE48671223EB47A0088FAF9 /* Dictionary.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Dictionary.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				DBE48669223EB4540088FAF9 /* main.cpp */,
+				DBE48670223EB46E0088FAF9 /* Dictionary.h */,
+				DBE48671223EB47A0088FAF9 /* Dictionary.cpp */,
 			);
 			path = dictionary_final;
 			sourceTree = "<group>";
@@ -119,6 +124,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBE4866A223EB4540088FAF9 /* main.cpp in Sources */,
+				DBE48672223EB47A0088FAF9 /* Dictionary.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
