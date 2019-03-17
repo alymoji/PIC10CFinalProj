@@ -28,8 +28,9 @@ public:
     bool loadDict(const char * filename); // see if file successfully opened
     
 private:
-    static void to_Lower(std::string& s); // auto lowercase for lookup function
-    size_t lookup_word(std::string word) const; // look ups word in vector
+    static void                        to_Lower(std::string& s); // auto lowercase for lookup function
+    std::vector<Entry>::const_iterator lookup_word(const std::string word) const; // look ups word in vector
+    void                               insertEntry(const Entry&);
 };
 
 

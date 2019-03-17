@@ -1,6 +1,7 @@
 #include <cctype>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <algorithm>
 #include "Dictionary.h"
 using namespace std;
@@ -82,7 +83,7 @@ bool Dictionary::loadDict(const char * filename)
     return true;
 }
 
-void Dictionary::to_Lower(std::string &s)
+void Dictionary::to_Lower(std::string &s) //make string lowercase
 {
     for(size_t i =0; i < s.length(); ++i)
     {
@@ -90,14 +91,25 @@ void Dictionary::to_Lower(std::string &s)
     }
 }
 
-size_t Dictionary::lookup_word(std::string word) const //function that retruns index of word
+//returns iterator into entries vector of first entry that comes after specified word
+//returns iterator to end of entries vector if specified word comes after all words
+vector<Dictionary::Entry>::const_iterator Dictionary::lookup_word(const std::string word) const
 {
-    to_Lower(word);
+    Entry temp; //create temp to convert to lowercase so search isn't case sensitive
+    temp.word = word;
+    to_Lower(temp.word);
+    return lower_bound(entries.begin(), entries.end(), temp);//binary search
+}
+
+//if entry has a word not in dict, entry is inserted into vector of Entry
+void Dictionary::insertEntry(const Entry& entry)
+{
+    vector<Entry>::const_iterator it = lookup_word(entry.word);
     
-    for(size_t i = 0; i < entries.size(); ++i)
+    if(it->word == entry.word) //see if word is unique
     {
-        if(word == entries[i].word); //work on this??
-        return i;
+        cout << "Entry already exists\n";
+        return; //if not, leave fn
     }
-    return entries.size(); //if word isn't there, returns size as index
+    entries.insert(it, entry);
 }
