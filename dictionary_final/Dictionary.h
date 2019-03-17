@@ -7,6 +7,17 @@
 class Dictionary
 {
 public:
+    
+    enum PART_OF_SPEECH {NOUN, ADJECIVE, VERB, ADVERB, PREPOSITION, CONJUNCTION, INTERJECTION};
+    
+    struct Entry
+    {
+        std::string word;
+        std::string def;
+        std::string pos;
+        std::string phon;
+    }
+    
     std::vector<std::string>entries;
     
     void addWord();
@@ -16,10 +27,7 @@ public:
     bool loadDict(const char * filename);
     
 private:
-    std::string word;
-    std::string def;
-    std::string part_of_speech;
-    std::string phon;
+    
 };
 
 
