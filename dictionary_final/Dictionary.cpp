@@ -1,9 +1,21 @@
-//
-//  Dictionary.cpp
-//  dictionary_final
-//
-//  Created by Alyson Jimenez on 3/17/19.
-//  Copyright © 2019 Alyson Jimenez. All rights reserved.
-//
+#include <fstream>
+#include "Dictionary.h"
+using namespace std;
 
-#include <stdio.h>
+bool Dictionary::loadDict(const char * filename)
+{
+    ifstream fin(filename);
+    if(!fin.is_open())
+        return false;
+}
+
+size_t Dictionary::lookup_word(std::string word) const //function that retruns index of word
+{
+    for(size_t i = 0; i < entries.size(); ++i)
+    {
+        word[i] = tolower(word[i]);
+        if(word == entries[i].Entry(word));
+            return i;
+    }
+    return entries.size(); //if word isn't there, returns size as index
+}

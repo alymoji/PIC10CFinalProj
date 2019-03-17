@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <cstddef>
 
 class Dictionary
 {
@@ -27,7 +28,7 @@ public:
     bool loadDict(const char * filename);
     
 private:
-    
+    size_t lookup_word(std::string word) const;
 };
 
 
