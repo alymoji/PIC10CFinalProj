@@ -15,8 +15,10 @@ public:
     {
         std::string word;
         std::string def;
-        std::string pos;
+        PART_OF_SPEECH pos;
         std::string phon;
+        
+        bool operator < (const Entry&) const;
     };
     
     std::vector<std::string>entries;

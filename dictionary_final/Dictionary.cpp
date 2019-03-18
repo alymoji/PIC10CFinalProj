@@ -6,6 +6,10 @@
 #include "Dictionary.h"
 using namespace std;
 
+bool Dictionary::Entry::operator<(const Entry & E) const
+{
+    return this->word < E.word;
+}
 
 //Each line has to be in format
 //output: word, part of speech, "definition"

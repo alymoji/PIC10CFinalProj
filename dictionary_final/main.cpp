@@ -6,4 +6,5 @@ int main()
 {
     Dictionary dic;
     dic.loadDict("dictionary.txt");
+    dic.addWord();
 }
