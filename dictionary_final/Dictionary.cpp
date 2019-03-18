@@ -55,7 +55,7 @@ bool Dictionary::loadDict(const char * filename)
         if(POSstr == "noun")
             next_entry.pos = NOUN;
         else if(POSstr == "adjective")
-            next_entry.pos = ADJECIVE;
+            next_entry.pos = ADJECTIVE;
         else if(POSstr == "verb")
             next_entry.pos = VERB;
         else if(POSstr == "adverb")
@@ -87,11 +87,71 @@ bool Dictionary::loadDict(const char * filename)
             return false;
         }
         next_entry.def = entry_line.substr(position1 + 1, position2 - position1 - 1);
-        entries.push_back(next_entry); //why error
+        entries.push_back(next_entry); //no member function??
     }
     fin.close();
     sort(entries.begin(), entries.end()); //sort file
     return true;
+}
+
+void Dictionary::addWord()
+{
+    Entry new_entry;
+    //Get word
+    do
+    {
+        cout << "Input Word (or '\\' to cancel): ";
+        getline(cin, new_entry.word, '\n');
+        if(new_entry.word == "\\" || is_valid_word(new_entry.word))
+            break;
+        cout << "That is not a valid word.\n";
+    } while(true);
+        
+    if(new_entry.word == "\\")
+        return;
+    
+    //Get definition
+    cout << "Input meaning (or '\\' to cancel): ";
+    getline(cin, new_entry.def, '\n');
+    
+    if(new_entry.def == "\\")
+        return;
+    
+    //Get part of speech
+    do
+    {
+        cout << "Input part of speech.\n";
+        cout << "1: NOUN\n";
+        cout << "2: ADJECTIVE\n";
+        cout << "3: VERB\n";
+        cout << "4: ADVERB\n";
+        cout << "5: PREPOSITION\n";
+        cout << "6: CONJUNCTION\n";
+        cout << "8: INTERJECTION\n";
+        
+        int pos;
+        if(!(cin >> pos)) //cant take a size_t, only int
+        {
+            cout << "That is not a part of speech. Enter one of the numbers above.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+        switch(pos)
+        {
+            case 1:    new_entry.pos = NOUN; break;
+            case 2:    new_entry.pos = ADJECTIVE; break;
+            case 3:    new_entry.pos = VERB; break;
+            case 4:    new_entry.pos = ADVERB; break;
+            case 5:    new_entry.pos = PREPOSITION; break;
+            case 7:    new_entry.pos = CONJUNCTION; break;
+            case 8:    new_entry.pos = INTERJECTION; break;
+            default: cout << "That is not a part of speech. Enter one of the numbers above." << endl; continue;
+        }
+        break;
+    } while(true);
+    
+    insertEntry(new_entry);
 }
 
 void Dictionary::to_Lower(std::string &s) //make string lowercase
@@ -102,7 +162,7 @@ void Dictionary::to_Lower(std::string &s) //make string lowercase
     }
 }
 
-bool Dictionary::is_valid_word(std::string &word) //make sure word has no weird symbols 
+bool Dictionary::is_valid_word(std::string &word) //make sure word has no weird symbols
 {
     return string::npos == word.find_first_of(":;<>,.?/\"{}[]|\\=+_)(*&^%$#@!~`", 0);
 }
@@ -114,7 +174,7 @@ vector<Dictionary::Entry>::const_iterator Dictionary::lookup_word(const std::str
     Entry temp; //create temp to convert to lowercase so search isn't case sensitive
     temp.word = word;
     to_Lower(temp.word);
-    return lower_bound(entries.begin(), entries.end(), temp);//binary search
+    return lower_bound(entries.begin(), entries.end(), temp);//binary search; no viable conversion??
 }
 
 //if entry has a word not in dict, entry is inserted into vector of Entry
@@ -127,6 +187,6 @@ void Dictionary::insertEntry(const Entry& entry)
         cout << "Entry already exists\n";
         return; //if not, leave fn
     }
-    entries.insert(it, entry);
+    entries.insert(it, entry); //no matching member fn??
 }
 
