@@ -11,6 +11,7 @@ using namespace std;
 //output: word, part of speech, "definition"
 bool Dictionary::loadDict(const char * filename)
 {
+    entries.clear(); //in case vector has entries beforehand
     ifstream fin(filename);
     if(!fin.is_open()) //check if file is open
     {
@@ -29,14 +30,24 @@ bool Dictionary::loadDict(const char * filename)
         if(position1 == string::npos)
         {
             cout << "Bad file format\n";
+            entries.clear();
             return false;
         }
         next_entry.word = entry_line.substr(0, position1);
+        
+        if(!is_valid_word(next_entry.word)) //check if the input is an actual word
+        {
+            cout << "Bad file format\n";
+            entries.clear();
+            return false;
+        }
+        to_Lower(next_entry.word);
         
         size_t position2 = entry_line.find_first_of(',', position1 + 1); //check part of speech
         if(position2 == string::npos)
         {
             cout << "Bad file format\n";
+            entries.clear();
             return false;
         }
         string POSstr = entry_line.substr(position1 + 1, position2 - position1 - 1);
@@ -91,6 +102,11 @@ void Dictionary::to_Lower(std::string &s) //make string lowercase
     }
 }
 
+bool Dictionary::is_valid_word(std::string &word) //make sure word has no weird symbols 
+{
+    return string::npos == word.find_first_of(":;<>,.?/\"{}[]|\\=+_)(*&^%$#@!~`", 0);
+}
+
 //returns iterator into entries vector of first entry that comes after specified word
 //returns iterator to end of entries vector if specified word comes after all words
 vector<Dictionary::Entry>::const_iterator Dictionary::lookup_word(const std::string word) const
@@ -113,3 +129,4 @@ void Dictionary::insertEntry(const Entry& entry)
     }
     entries.insert(it, entry);
 }
+

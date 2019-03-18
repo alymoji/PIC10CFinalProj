@@ -29,8 +29,9 @@ public:
     
 private:
     static void                        to_Lower(std::string& s); // auto lowercase for lookup function
+    static bool                        is_valid_word(std::string& word); //check if it's a word
     std::vector<Entry>::const_iterator lookup_word(const std::string word) const; // look ups word in vector
-    void                               insertEntry(const Entry&);
+    void                               insertEntry(const Entry& entry);
 };
 
 
