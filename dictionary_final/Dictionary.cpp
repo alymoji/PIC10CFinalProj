@@ -195,10 +195,32 @@ bool Dictionary::is_valid_word(std::string &word) //make sure word has no weird 
 //returns iterator to end of entries vector if specified word comes after all words
 vector<Dictionary::Entry>::const_iterator Dictionary::lookup_word(const std::string word) const
 {
-    Entry temp; //create temp to convert to lowercase so search isn't case sensitive
+    //Create a temporary Entry for search to make entry lowercase
+    Entry temp;
     temp.word = word;
     to_Lower(temp.word);
-    return lower_bound(entries.begin(), entries.end(), temp);//binary search; no viable conversion??
+    vector<Dictionary::Entry>::const_iterator it = lower_bound(entries.begin(), entries.end(), temp); //binary search
+    //check if iterator is not the beginning and not the last so it can be able to move the iterator back one for insertion
+    if(it != entries.begin() && (it - 1) -> word = word)
+    {
+        return it - 1;
+    }
+    return it;
+}
+
+vector<Dictionary::Entry>::iterator Dictionary::lookup_word(const std::string word)
+{
+    //Create a temporary Entry for search to make entry lowercase
+    Entry temp;
+    temp.word = word;
+    to_Lower(temp.word);
+    vector<Dictionary::Entry>::iterator it = lower_bound(entries.begin(), entries.end(), temp); //binary search
+    //check if iterator is not the beginning and not the last so it can be able to move the iterator back one for insertion
+    if(it != entries.begin() && (it - 1) -> word = word)
+    {
+        return it - 1;
+    }
+    return it;
 }
 
 //if entry has a word not in dict, entry is inserted into vector of Entry

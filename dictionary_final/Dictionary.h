@@ -34,6 +34,7 @@ private:
     static bool                        is_valid_word(std::string& word); //check if it's a word
     
     std::vector<Entry>::const_iterator lookup_word(const std::string word) const; // look ups word in vector
+    std::vector<Entry>::iterator       lookup_word(const std::string word);
     void                               insertEntry(const Entry& entry);
 };
 
