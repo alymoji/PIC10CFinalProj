@@ -73,6 +73,7 @@ bool Dictionary::loadDict(const char * filename)
         else
         {
             cout << "Unrecognized part of speech\n";
+            entries.clear();
             return false;
         }
         
@@ -91,13 +92,14 @@ bool Dictionary::loadDict(const char * filename)
             return false;
         }
         next_entry.def = entry_line.substr(position1 + 1, position2 - position1 - 1);
-        entries.push_back(next_entry); //no member function??
+        entries.push_back(next_entry);
     }
     fin.close();
     sort(entries.begin(), entries.end()); //sort file
     return true;
 }
 
+//Recieves info from user and then adds the entry to the dictionary alphabetically
 void Dictionary::addWord()
 {
     Entry new_entry;
@@ -158,6 +160,24 @@ void Dictionary::addWord()
     insertEntry(new_entry);
 }
 
+void Dictionary::editWord()
+{
+    string word;
+    vector<Entry>::iterator entry_to_edit;
+    
+    do
+    {
+        cout << "Input Word (or '\\' to cancel): ";
+        getline(cin, word, '\n');
+        if(word == "\\")
+            return;
+        
+        entry_to_edit = lookup_word(word);
+    }
+}
+
+
+
 void Dictionary::to_Lower(std::string &s) //make string lowercase
 {
     for(size_t i =0; i < s.length(); ++i)
@@ -191,6 +211,6 @@ void Dictionary::insertEntry(const Entry& entry)
         cout << "Entry already exists\n";
         return; //if not, leave fn
     }
-    entries.insert(it, entry); //no matching member fn??
+    entries.insert(it, entry); 
 }
 

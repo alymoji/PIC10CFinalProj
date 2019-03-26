@@ -9,7 +9,7 @@ class Dictionary
 {
 public:
     
-    enum PART_OF_SPEECH {NOUN, ADJECTIVE, VERB, ADVERB, PREPOSITION, CONJUNCTION, INTERJECTION};
+    enum PART_OF_SPEECH {NOUN = 1, ADJECTIVE, VERB, ADVERB, PREPOSITION, CONJUNCTION, INTERJECTION};
     
     struct Entry
     {
@@ -21,17 +21,18 @@ public:
         bool operator < (const Entry&) const;
     };
     
-    std::vector<std::string>entries;
-    
     void addWord();
     void editWord();
     void viewSpecific() const;
-    void showPhone();
+    void showPhon();
     bool loadDict(const char * filename); // see if file successfully opened
     
 private:
+    std::vector<Entry>                 entries;
+    
     static void                        to_Lower(std::string& s); // auto lowercase for lookup function
     static bool                        is_valid_word(std::string& word); //check if it's a word
+    
     std::vector<Entry>::const_iterator lookup_word(const std::string word) const; // look ups word in vector
     void                               insertEntry(const Entry& entry);
 };
