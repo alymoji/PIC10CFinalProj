@@ -173,7 +173,57 @@ void Dictionary::editWord()
             return;
         
         entry_to_edit = lookup_word(word);
+        
+        if(entry_to_edit == entries.end() || entry_to_edit->word != word)
+        {
+            cout << "That word is not in the dictionary.\n";
+        }
+        else
+            break;
+    }while(true);
+    
+    int ans = -1;
+    do
+    {
+        cout << "Would you like to: \n1. Edit spelling of word\n2.Edit definition of word.\n";
+        if(!(cin >> ans) || ans < 1 || ans > 2) // goes through the first scenario so it'll read the input
+        {
+            cout << "That's not a valid choice. Enter one of the numbers above.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+        else
+            break;
+    }while(true);
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    
+    if(ans == 1) //edit spelling
+    {
+        string spell;
+        do
+        {
+            cout << "Input new spelling (or '\\' to cancel): ";
+            getline(cin, spell, '\n');
+            if(spell == "\\")
+                return;
+            if(is_valid_word(spell))
+                break;
+            cout << "That is not a valid word.\n";
+        }while(true);
+        
+        entry_to_edit->word = spell;
     }
+    else if(ans == 2) //edit definition
+    {
+        string definition;
+        cout << "Input nre definition (or '\\' to cancel): ";
+        getline(cin, definition, '\n');
+        if(definition == "\\")
+            return;
+        entry_to_edit->def = definition;
+    }
+    sort(entries.begin(), entries.end());
 }
 
 
