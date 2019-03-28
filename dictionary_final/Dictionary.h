@@ -26,6 +26,7 @@ public:
     void viewSpecific() const;
     void showPhon();
     bool loadDict(const char * filename); // see if file successfully opened
+    bool writeDictToFile() const;
     
 private:
     std::vector<Entry>                 entries;

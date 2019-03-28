@@ -99,6 +99,48 @@ bool Dictionary::loadDict(const char * filename)
     return true;
 }
 
+//Enters vector entries in text file accordingly
+//Rewrites the file
+bool Dictionary::writeDictToFile() const
+{
+    string filename;
+    //it will override the file so best to show a message
+    cout << "Warning: Writing a dictionary to a file will overwrite anything in the current file.\n";
+    cout << "Input file name (or '\\' to cancel): ";
+    getline(cin, filename, '\n');
+    if(filename == "\\")
+        return false;
+    
+    ofstream fout;
+    fout.open(filename);
+    
+    if(!fout.is_open())
+    {
+        cout << "File failed to open\n";
+        return false;
+    }
+    
+    for(size_t i = 0; i < entries.size(); i++) //use size_t as it relates to the file, not the vector
+    {
+        fout << entries[i].word;
+        switch(entries[i].pos)
+        {
+            case NOUN:         fout << ",NOUN,";         break;
+            case VERB:         fout << ",VERB,";         break;
+            case ADJECTIVE:    fout << ",ADJECTIVE,";    break;
+            case ADVERB:       fout << ",ADVERB,";       break;
+            case PREPOSITION:  fout << ",PREPOSITION,";  break;
+            case CONJUNCTION:  fout << ",CONJUNCTION,";  break;
+            case INTERJECTION: fout << ",INTERJECTION,"; break;
+        }
+        fout << '"' << entries[i].def << '"' << "\n";
+    }
+    fout.close();
+    return true;
+}
+
+
+
 //Recieves info from user and then adds the entry to the dictionary alphabetically
 void Dictionary::addEntry()
 {
