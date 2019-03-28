@@ -21,8 +21,8 @@ public:
         bool operator < (const Entry&) const;
     };
     
-    void addWord();
-    void editWord();
+    void addEntry();
+    void editEntry();
     void viewSpecific() const;
     void showPhon();
     bool loadDict(const char * filename); // see if file successfully opened

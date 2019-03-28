@@ -100,7 +100,7 @@ bool Dictionary::loadDict(const char * filename)
 }
 
 //Recieves info from user and then adds the entry to the dictionary alphabetically
-void Dictionary::addWord()
+void Dictionary::addEntry()
 {
     Entry new_entry;
     //Get word
@@ -160,7 +160,7 @@ void Dictionary::addWord()
     insertEntry(new_entry);
 }
 
-void Dictionary::editWord()
+void Dictionary::editEntry()
 {
     string word;
     vector<Entry>::iterator entry_to_edit;
@@ -226,9 +226,56 @@ void Dictionary::editWord()
     sort(entries.begin(), entries.end());
 }
 
+void Dictionary::viewSpecific() const
+{
+    /*
+     1. ask user for work to search
+     2. search for word in vector
+     3. if it's not in vector, say that word doesn't exist
+     4. if it's in the vector, output the line
+     */
+    
+    if(entries.empty())
+    {
+        cout << "There are no entries in the dictionary.\n";
+        return;
+    }
+    
+    string user_word;
+    
+    cout << "Input Word (of '\\' to cancel): ";
+    cin >> user_word;
+    
+    if(user_word == "\\")
+        return;
+    to_Lower(user_word);
+    
+    vector<Entry>::const_iterator it = lookup_word(user_word);
+    if(it == entries.end() || it->word != user_word)
+    {
+        cout << "Word does not exist\n";
+        return;
+    }
+    else
+    {
+        cout << "Word: " << it->word << "\n";
+        cout << "Part of Speech: ";
+        switch(it->pos)
+        {
+            case NOUN:         cout << "NOUN";
+            case ADJECTIVE:    cout << "ADJECTIVE";
+            case VERB:         cout << "VERB";
+            case ADVERB:       cout << "ADVERB";
+            case PREPOSITION:  cout << "PREPOSITION";
+            case CONJUNCTION:  cout << "CONJUNCTION";
+            case INTERJECTION: cout << "INTERJECTION";
+        }
+        cout << "\nDefinition: " << it->def << "\n";
+    }
+}
 
-
-void Dictionary::to_Lower(std::string &s) //make string lowercase
+//make string lowercase
+void Dictionary::to_Lower(std::string &s)
 {
     for(size_t i =0; i < s.length(); ++i)
     {
@@ -236,7 +283,8 @@ void Dictionary::to_Lower(std::string &s) //make string lowercase
     }
 }
 
-bool Dictionary::is_valid_word(std::string &word) //make sure word has no weird symbols
+//make sure word has no weird symbols
+bool Dictionary::is_valid_word(std::string &word)
 {
     return string::npos == word.find_first_of(":;<>,.?/\"{}[]|\\=+_)(*&^%$#@!~`", 0);
 }
@@ -250,14 +298,15 @@ vector<Dictionary::Entry>::const_iterator Dictionary::lookup_word(const std::str
     temp.word = word;
     to_Lower(temp.word);
     vector<Dictionary::Entry>::const_iterator it = lower_bound(entries.begin(), entries.end(), temp); //binary search
-    //check if iterator is not the beginning and not the last so it can be able to move the iterator back one for insertion
-    if(it != entries.begin() && (it - 1) -> word = word)
+    if(it != entries.begin() && (it - 1)->word == word)
     {
         return it - 1;
     }
     return it;
 }
 
+//returns iterator into entries vector of first entry that comes after specified word
+//returns iterator to end of entries vector if specified word comes after all words
 vector<Dictionary::Entry>::iterator Dictionary::lookup_word(const std::string word)
 {
     //Create a temporary Entry for search to make entry lowercase
@@ -265,8 +314,7 @@ vector<Dictionary::Entry>::iterator Dictionary::lookup_word(const std::string wo
     temp.word = word;
     to_Lower(temp.word);
     vector<Dictionary::Entry>::iterator it = lower_bound(entries.begin(), entries.end(), temp); //binary search
-    //check if iterator is not the beginning and not the last so it can be able to move the iterator back one for insertion
-    if(it != entries.begin() && (it - 1) -> word = word)
+    if(it != entries.begin() && (it - 1)->word == word)
     {
         return it - 1;
     }
