@@ -25,7 +25,7 @@ public:
     void editEntry();
     void viewSpecific() const;
     void showPhon();
-    bool loadDict(const char * filename); // see if file successfully opened
+    bool loadDictFromFile(); // see if file successfully opened
     bool writeDictToFile() const;
     
 private:

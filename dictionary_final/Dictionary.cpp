@@ -13,15 +13,22 @@ bool Dictionary::Entry::operator<(const Entry & E) const
 
 //Each line has to be in format
 //output: word, part of speech, "definition"
-bool Dictionary::loadDict(const char * filename)
+bool Dictionary::loadDictFromFile()
 {
-    entries.clear(); //in case vector has entries beforehand
+    string filename;
+    cout << "Warning: Loading a dictionary from a file will erase anything in the current dictionary.\n";
+    cout << "Input file name (or '\\' to cancel): ";
+    getline(cin, filename, '\n');
+    if(filename == "\\")
+        return false;
+    
     ifstream fin(filename);
     if(!fin.is_open()) //check if file is open
     {
         cout << "File failed to open\n";
         return false;
     }
+    entries.clear();
     
     string entry_line;
     while(getline(fin, entry_line, '\n')) //reading a line to add to vector

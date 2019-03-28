@@ -5,10 +5,11 @@ using namespace std;
 int main()
 {
     Dictionary dic;
-    dic.loadDict("dictionary.txt");
-    dic.addWord();
+    dic.loadDictFromFile();
+    dic.addEntry();
+    dic.editEntry();
     dic.viewSpecific();
     dic.showPhon();
-    dic.loadDict("dictionary.txt");
+    dic.writeDictToFile();
     return 0;
 }
