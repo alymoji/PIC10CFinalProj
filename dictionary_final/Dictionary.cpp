@@ -375,10 +375,10 @@ void Dictionary::insertEntry(const Entry& entry)
 {
     vector<Entry>::const_iterator it = lookup_word(entry.word);
     
-    if(it->word == entry.word) //see if word is unique
+    if(it != entries.end() && it->word == entry.word) //check if it's unique
     {
         cout << "Entry already exists\n";
-        return; //if not, leave fn
+        return; //if not leave function 
     }
     entries.insert(it, entry); 
 }
