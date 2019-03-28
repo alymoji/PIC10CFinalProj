@@ -370,7 +370,7 @@ vector<Dictionary::Entry>::iterator Dictionary::lookup_word(const std::string wo
     return it;
 }
 
-//if entry has a word not in dict, entry is inserted into vector of Entry
+//if entry has a word not in dict, entry is inserted into vector of Entry alphabetically
 void Dictionary::insertEntry(const Entry& entry)
 {
     vector<Entry>::const_iterator it = lookup_word(entry.word);
@@ -378,7 +378,7 @@ void Dictionary::insertEntry(const Entry& entry)
     if(it != entries.end() && it->word == entry.word) //check if it's unique
     {
         cout << "Entry already exists\n";
-        return; //if not leave function 
+        return; //if not leave function
     }
     entries.insert(it, entry); 
 }
